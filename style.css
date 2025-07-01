@@ -141,3 +141,35 @@ tbody tr:nth-child(even) {
     padding: 10px;
   }
 }
+
+.tema-escuro {
+  background-color: #1c1c1c;
+  color: #f0f0f0;
+}
+
+.tema-escuro table {
+  background-color: #333;
+  color: #f0f0f0;
+}
+
+.tema-escuro input,
+.tema-escuro select,
+.tema-escuro textarea,
+.tema-escuro button {
+  background-color: #2e2e2e;
+  color: #f0f0f0;
+  border-color: #f0f0f0;
+}
+
+.tema-escuro th,
+.tema-escuro td {
+  border-color: #888;
+}
+
+.tema-escuro thead {
+  background-color: #444;
+}
+
+.tema-escuro tbody tr:nth-child(even) {
+  background-color: #2a2a2a;
+}
