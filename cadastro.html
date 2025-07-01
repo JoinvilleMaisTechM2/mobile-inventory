@@ -3,21 +3,15 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
-  <script src="script.js" defer></script>
+  <script src="cadastro.js" defer></script>
   <title>Cadastro de Celulares</title>
 </head>
 <body>
-  <div id="logo">
-    <h1>Cadastro de Celulares</h1>
-    <img src="images/mobile-phone.png" alt="Ícone celular" />
-  </div>
-
+  <h1>Cadastro de Celulares</h1>
   <form>
     <label for="marca">Marca:</label>
     <select id="marca">
-      <option value="">Selecione</option>
       <option value="Iphone">Iphone</option>
       <option value="Samsung">Samsung</option>
       <option value="Motorola">Motorola</option>
@@ -43,10 +37,10 @@
       <label for="usado">Usado</label>
     </fieldset>
 
-    <label for="infos">Demais Informações:</label><br>
+    <label for="infos">Informações:</label><br>
     <textarea id="infos" cols="30" rows="5"></textarea><br>
 
-    <button type="submit" id="salvar" disabled>Salvar</button>
+    <button type="submit" id="salvar">Salvar</button>
     <button type="button" id="voltar">Voltar</button>
   </form>
 </body>

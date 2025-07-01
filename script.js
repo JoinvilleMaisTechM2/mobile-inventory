@@ -1,99 +1,43 @@
-document.addEventListener("DOMContentLoaded", () => {
-  const paginaCadastro = document.title.includes("Cadastro");
+const tbody = document.getElementById("tabela-corpo");
+const btnCadastrar = document.getElementById("btn-cadastrar");
 
-  if (paginaCadastro) {
-    const form = document.querySelector("form");
-    const salvarBtn = document.getElementById("salvar");
-    const voltarBtn = document.getElementById("voltar");
+function carregarTabela() {
+  const celulares = JSON.parse(localStorage.getItem("celulares")) || [];
+  tbody.innerHTML = "";
 
-    const marca = document.getElementById("marca");
-    const modelo = document.getElementById("modelo");
-    const cor = document.getElementById("cor");
-    const valor = document.getElementById("valor");
-    const infos = document.getElementById("infos");
-    const radios = document.querySelectorAll("input[name='condicao']");
+  celulares.forEach((celular, index) => {
+    const tr = document.createElement("tr");
+    tr.innerHTML = `
+      <td>${celular.marca}</td>
+      <td>${celular.modelo}</td>
+      <td>${celular.cor}</td>
+      <td>R$ ${parseFloat(celular.valor).toFixed(2)}</td>
+      <td>${celular.condicao}</td>
+      <td>${celular.infos}</td>
+      <td>
+        <button onclick="editar(${index})">Alterar</button>
+        <button onclick="excluir(${index})">Excluir</button>
+      </td>
+    `;
+    tbody.appendChild(tr);
+  });
+}
 
-    function validarFormulario() {
-      const condicaoSelecionada = [...radios].some(r => r.checked);
-      if (
-        marca.value &&
-        modelo.value.trim() &&
-        cor.value.trim() &&
-        valor.value.trim() &&
-        infos.value.trim() &&
-        condicaoSelecionada
-      ) {
-        salvarBtn.disabled = false;
-      } else {
-        salvarBtn.disabled = true;
-      }
-    }
+function excluir(index) {
+  const lista = JSON.parse(localStorage.getItem("celulares")) || [];
+  lista.splice(index, 1);
+  localStorage.setItem("celulares", JSON.stringify(lista));
+  carregarTabela();
+}
 
-    form.addEventListener("input", validarFormulario);
-    form.addEventListener("change", validarFormulario);
+function editar(index) {
+  localStorage.setItem("indiceEdicao", index);
+  window.location.href = "cadastro.html";
+}
 
-    form.addEventListener("submit", (e) => {
-      e.preventDefault();
-
-      const condicao = [...radios].find(r => r.checked).value;
-      const celular = {
-        marca: marca.value,
-        modelo: modelo.value,
-        cor: cor.value,
-        valor: parseFloat(valor.value).toFixed(2),
-        condicao: condicao,
-        infos: infos.value
-      };
-
-      const lista = JSON.parse(localStorage.getItem("celulares")) || [];
-      lista.push(celular);
-      localStorage.setItem("celulares", JSON.stringify(lista));
-
-      alert("Dados salvos com sucesso!");
-      form.reset();
-      salvarBtn.disabled = true;
-    });
-
-    voltarBtn.addEventListener("click", () => {
-      window.location.href = "index.html";
-    });
-  } else {
-    const tabela = document.getElementById("tabela-listagem");
-    const btnCadastrar = document.getElementById("btn-cadastrar");
-
-    function carregarTabela() {
-      const lista = JSON.parse(localStorage.getItem("celulares")) || [];
-      tabela.innerHTML = "";
-
-      lista.forEach((celular, index) => {
-        const tr = document.createElement("tr");
-        tr.innerHTML = `
-          <td>${celular.marca}</td>
-          <td>${celular.modelo}</td>
-          <td>${celular.cor}</td>
-          <td>R$ ${celular.valor}</td>
-          <td>${celular.condicao}</td>
-          <td>${celular.infos}</td>
-          <td><button data-index="${index}" class="excluir">Excluir</button></td>
-        `;
-        tabela.appendChild(tr);
-      });
-    }
-
-    tabela.addEventListener("click", (e) => {
-      if (e.target.classList.contains("excluir")) {
-        const index = e.target.dataset.index;
-        const lista = JSON.parse(localStorage.getItem("celulares")) || [];
-        lista.splice(index, 1);
-        localStorage.setItem("celulares", JSON.stringify(lista));
-        carregarTabela();
-      }
-    });
-
-    btnCadastrar.addEventListener("click", () => {
-      window.location.href = "cadastro.html";
-    });
-
-    carregarTabela();
-  }
+btnCadastrar.addEventListener("click", () => {
+  localStorage.removeItem("indiceEdicao");
+  window.location.href = "cadastro.html";
 });
+
+carregarTabela();
